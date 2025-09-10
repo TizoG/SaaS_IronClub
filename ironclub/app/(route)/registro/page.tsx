@@ -1,18 +1,10 @@
 // app/page.tsx
-import { FormLogins } from '@/components/componentForm/formLogins';
-import { FormUser } from '../components/componentForm/form';
+
+import { FormUser } from '@/components/componentForm/form';
 
 export default function Home() {
     return (
         <section className="flex min-h-screen overflow-y-hidden">
-            <div className=" flex w-full md:w-1/2 items-center justify-center bg-[#0f0f12]">
-                <div className="w-full max-w-md bg-[#1c1c1f] rounded-xl shadow-lg p-8">
-                    {/* Formulario */}
-                    <FormLogins />
-
-                    {/* Footer */}
-                </div>
-            </div>
             {/* Columna izquierda con imagen */}
             <div
                 className="hidden md:flex w-1/2 bg-cover bg-center overflow-y-hidden"
@@ -31,6 +23,14 @@ export default function Home() {
             </div>
 
             {/* Columna derecha con formulario */}
+            <div className=" flex w-full md:w-1/2 items-center justify-center bg-[#0f0f12]">
+                <div className="w-full max-w-md bg-[#1c1c1f] rounded-xl shadow-lg p-8">
+                    {/* Formulario */}
+                    <FormUser />
+
+                    {/* Footer */}
+                </div>
+            </div>
         </section>
     );
 }
