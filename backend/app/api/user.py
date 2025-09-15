@@ -95,6 +95,12 @@ def get_users(role: Optional[str] = "user", db: Session = Depends(get_db)):
     return db_users
 
 
+@router.get("/{status}", response_model=list[ResponseUser])
+def get_users_by_status(status: str, db: Session = Depends(get_db)):
+    db_users = db.query(User).filter(User.state == status).all()
+    return db_users
+
+
 @router.put("/{user_id}", response_model=ResponseUser)
 def update_user(user_id: int, user: UpdateUser, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.id == user_id).first()
@@ -111,3 +117,9 @@ def update_user(user_id: int, user: UpdateUser, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+@router.get("/{name}", response_model=list[ResponseUser])
+def users_get_by_name(name: str, db: Session = Depends(get_db)):
+    db_users = db.query(User).filter(User.name == name).all()
+    return db_users

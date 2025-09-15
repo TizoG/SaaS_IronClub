@@ -43,6 +43,8 @@ type TextColor =
     | 'vip';
 export const TableMiembros = () => {
     const [users, setUsers] = useState<Usuario[]>([]);
+    const [status, setEstatus] = useState<string>('todos');
+    const [search, setSearch] = useState<string>('');
     const colorEstado: Record<Estado, string> = {
         activo: 'bg-green-300/50',
         suspendido: 'bg-red-300/50',
@@ -65,14 +67,40 @@ export const TableMiembros = () => {
 
     const actualizarTabla = () => {
         axios
-            .get('http://localhost:8000/users/users')
-            .then((res) => setUsers(res.data))
+            .get('http://localhost:8000/users/users') // siempre traes todos
+            .then((res) => {
+                let filtered = res.data;
+
+                // Filtrar por estado
+                if (status !== 'todos') {
+                    filtered = filtered.filter(
+                        (u: Usuario) =>
+                            u.state?.toLowerCase() === status.toLowerCase()
+                    );
+                }
+
+                // Filtrar por búsqueda
+                if (search.trim() !== '') {
+                    const query = search.toLowerCase();
+                    filtered = filtered.filter(
+                        (u: Usuario) =>
+                            u.name.toLowerCase().includes(query) ||
+                            u.surname.toLowerCase().includes(query) ||
+                            `${u.name} ${u.surname}`
+                                .toLowerCase()
+                                .includes(query)
+                    );
+                }
+
+                setUsers(filtered);
+            })
             .catch((err) => console.error(err));
     };
+
+    // Se ejecuta cada vez que cambia status o search
     useEffect(() => {
         actualizarTabla();
-    }, []);
-    console.log(users);
+    }, [status, search]);
 
     const formatDate = (date: string | Date) => {
         const d = new Date(date);
@@ -115,17 +143,28 @@ export const TableMiembros = () => {
                             id="firstName"
                             placeholder="Juan"
                             className="pl-10 placeholder:text-gray-400 focus:border-yellow-500 bg-gray-50"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    <Select defaultValue="todos">
+                    <Button
+                        onClick={actualizarTabla}
+                        className="bg-yellow-500 text-white hover:bg-yellow-600"
+                    >
+                        Buscar
+                    </Button>
+                    <Select
+                        defaultValue="todos"
+                        onValueChange={(e) => setEstatus(e)}
+                    >
                         <SelectTrigger className="focus:border-yellow-500 bg-gray-50">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="todos">Todos</SelectItem>
-                            <SelectItem value="activos">Activos</SelectItem>
-                            <SelectItem value="inactivos">Inactivos</SelectItem>
-                            <SelectItem value="suspendidos">
+                            <SelectItem value="activo">Activos</SelectItem>
+                            <SelectItem value="inactivo">Inactivos</SelectItem>
+                            <SelectItem value="suspendido">
                                 Suspendidos
                             </SelectItem>
                         </SelectContent>
