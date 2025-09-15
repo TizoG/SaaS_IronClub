@@ -1,6 +1,6 @@
 
 
-from sqlalchemy import Boolean, Column, Date, Float, Integer, String, func
+from sqlalchemy import Boolean, Column, Date, DateTime, Float, Integer, String, func
 from app.core.database import Base
 
 
@@ -16,8 +16,10 @@ class User(Base):
     birthdate = Column(Date, nullable=False)
     membership = Column(String(50), nullable=False)
     role = Column(String(50), nullable=False)
-    created_at = Column(Date, default=func.now())
-    updated_at = Column(Date, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    state = Column(String(50), nullable=True)
+    last_login = Column(DateTime, default=None, nullable=True)
 
     photo = Column(String(255), nullable=True)
     address = Column(String(255), nullable=True)

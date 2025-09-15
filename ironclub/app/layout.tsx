@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
-            <body className={`${nunito.className}  antialiased`}>
+            <body className={`${nunito.className}  antialiased bg-gray-100`}>
                 {children}
                 <Toaster richColors position="top-right" />
             </body>

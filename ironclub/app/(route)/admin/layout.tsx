@@ -21,9 +21,9 @@ export default function AdminLayout({
 
     return (
         <SidebarProvider>
-            <div className="flex">
+            <div className="flex w-screen min-h-screen overflow-x-hidden">
                 <AdminSidebar />
-                <main className="flex-1">
+                <main className="flex-1 w-full overflow-x-hidden">
                     <SidebarTrigger />
                     {children}
                 </main>

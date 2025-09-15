@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
-from datetime import date
+from datetime import date, datetime
 
 
 class CreateUser(BaseModel):
@@ -29,6 +29,7 @@ class CreateUser(BaseModel):
     visible_profile: Optional[bool]
     share_progress: Optional[bool]
     show_ranking: Optional[bool]
+    state: Optional[str]
 
     class Config:
         orm_mode = True
@@ -43,6 +44,7 @@ class ResponseUser(CreateUser):
     birthdate: date
     membership: str
     role: str
+    created_at: datetime
     photo: Optional[str]
     address: Optional[str]
     emergency_contact: Optional[str]
@@ -60,6 +62,8 @@ class ResponseUser(CreateUser):
     visible_profile: Optional[bool]
     share_progress: Optional[bool]
     show_ranking: Optional[bool]
+    state: Optional[str]
+    last_login: Optional[datetime]
 
 
 class LoginUser(BaseModel):
@@ -68,3 +72,12 @@ class LoginUser(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UpdateUser(BaseModel):
+    name: Optional[str]
+    surname: Optional[str]
+    email: Optional[EmailStr]
+    phone: Optional[str]
+    membership: Optional[str]
+    state: Optional[str]
