@@ -15,6 +15,7 @@ import axios from 'axios';
 import { Edit, Mail, Phone, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { EditButton } from './editButtom';
+import { DeleteButton } from './deleteButton';
 export type Usuario = {
     id: number;
     photo: string;
@@ -294,20 +295,18 @@ export const TableMiembros = () => {
                                     {formatLastLogin(user.last_login)}
                                 </td>
                                 <td className="p-4">
-                                    <div className="flex items-center space-x-2">
+                                    <div
+                                        className="flex items-center space-x-2"
+                                        key={user.id}
+                                    >
                                         <EditButton
-                                            key={user.id}
                                             user={user}
                                             onUpdate={actualizarTabla}
                                         />
-                                        <Button
-                                            size={'sm'}
-                                            variant={'ghost'}
-                                            onClick={() => {}}
-                                            className="text-gray-600 hover:text-gray-900"
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
+                                        <DeleteButton
+                                            user={user}
+                                            onUpdate={actualizarTabla}
+                                        />
                                     </div>
                                 </td>
                             </tr>

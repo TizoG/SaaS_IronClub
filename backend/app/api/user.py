@@ -123,3 +123,16 @@ def update_user(user_id: int, user: UpdateUser, db: Session = Depends(get_db)):
 def users_get_by_name(name: str, db: Session = Depends(get_db)):
     db_users = db.query(User).filter(User.name == name).all()
     return db_users
+
+
+@router.delete("/{user_id}", response_model=ResponseUser)
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="El usuario no existe."
+        )
+
+    db.delete(db_user)
+    db.commit()
+    return db_user

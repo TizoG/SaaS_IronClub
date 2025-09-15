@@ -46,7 +46,7 @@ const items = [
     },
     {
         title: 'Clases',
-        url: '#',
+        url: '/admin/clases',
         icon: Calendar,
     },
     {
